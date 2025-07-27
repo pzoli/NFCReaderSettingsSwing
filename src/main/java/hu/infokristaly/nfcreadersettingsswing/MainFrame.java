@@ -267,7 +267,7 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
     }// </editor-fold>//GEN-END:initComponents
 
     private SerialPort serialPort;
-    private String request = "/forras-admin/rest/createNFCLog?readerid=%RID%&crfid=%CID%&type=RF1";
+    private String request = "/forras-admin/rest/createNFCLog?readerid=%RID%&crfid=%CID%&type=RF1"; // TODO: connect to config needed
 
     private byte[] parseIp(String value) throws IllegalArgumentException {
         String[] readerIP = value.split("\\.");
