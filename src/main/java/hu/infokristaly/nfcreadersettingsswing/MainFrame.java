@@ -134,7 +134,7 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
 
         jLabel9.setText("Request:");
 
-        edRequest.setText("/forras-admin/rest/createNFCLog?readerid=%RID%&rfid=%CID%&type=RF1");
+        edRequest.setText("/forras-admin/rest/createNFCLog?readerid=%RID%&rfid=%CID%&type=%TYPE%");
         edRequest.setToolTipText("req?var1=1&var2=2");
         edRequest.setEnabled(false);
         edRequest.addKeyListener(new java.awt.event.KeyAdapter() {

@@ -307,7 +307,7 @@
     </Component>
     <Component class="javax.swing.JTextField" name="edRequest">
       <Properties>
-        <Property name="text" type="java.lang.String" value="/forras-admin/rest/createNFCLog?readerid=%RID%&amp;rfid=%CID%&amp;type=RF1"/>
+        <Property name="text" type="java.lang.String" value="/forras-admin/rest/createNFCLog?readerid=%RID%&amp;rfid=%CID%&amp;type=%TYPE%"/>
         <Property name="toolTipText" type="java.lang.String" value="req?var1=1&amp;var2=2"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
