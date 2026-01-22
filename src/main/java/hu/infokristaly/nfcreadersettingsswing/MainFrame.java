@@ -61,6 +61,7 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
         edMAC = new javax.swing.JTextField();
         edServerPort = new javax.swing.JTextField();
         jLabel11 = new javax.swing.JLabel();
+        lblMaxLength = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -136,6 +137,11 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
         edRequest.setText("/forras-admin/rest/createNFCLog?readerid=%RID%&rfid=%CID%&type=RF1");
         edRequest.setToolTipText("req?var1=1&var2=2");
         edRequest.setEnabled(false);
+        edRequest.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                edRequestKeyReleased(evt);
+            }
+        });
 
         sendButton.setText("Save");
         sendButton.setEnabled(false);
@@ -169,6 +175,9 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
         });
 
         jLabel11.setText("Server Port:");
+
+        lblMaxLength.setText("max 79 character");
+        lblMaxLength.setEnabled(false);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -226,12 +235,18 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
                     .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(edRequest, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
-                    .addComponent(edServerPort, javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addComponent(edServerIp, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(edRequest, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                            .addComponent(edServerPort, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(edServerIp, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(lblMaxLength)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -279,7 +294,9 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(edRequest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblMaxLength)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sendButton)
                     .addComponent(btnReadConfig))
@@ -351,7 +368,7 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
             conf.request = edRequest.getText();
             conf.mac = edMAC.getText();
             conf.serverport = Integer.parseInt(edServerPort.getText());
-            int requestLength = edRequest.getText().length() < 80 ? edRequest.getText().length() : 80;
+            int requestLength = edRequest.getText().length() < 80 ? edRequest.getText().length() : 79;
             conf.request = edRequest.getText().substring(0,requestLength) + (char) 0;
             Gson gson = new GsonBuilder().disableHtmlEscaping().create();
             String config = gson.toJson(conf);
@@ -381,6 +398,10 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
     private void edServerPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edServerPortActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_edServerPortActionPerformed
+
+    private void edRequestKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_edRequestKeyReleased
+        lblMaxLength.setEnabled(edRequest.getText().length() > 79);
+    }//GEN-LAST:event_edRequestKeyReleased
 
     public void setState() {
         boolean b = serialPort.isOpened();
@@ -518,6 +539,7 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel lblMaxLength;
     private javax.swing.JButton sendButton;
     private javax.swing.JComboBox<String> serialPortList;
     // End of variables declaration//GEN-END:variables
