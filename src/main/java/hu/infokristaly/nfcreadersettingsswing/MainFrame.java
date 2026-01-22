@@ -6,6 +6,7 @@
 package hu.infokristaly.nfcreadersettingsswing;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -58,6 +59,8 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
         btnReadConfig = new javax.swing.JButton();
         jLabel10 = new javax.swing.JLabel();
         edMAC = new javax.swing.JTextField();
+        edServerPort = new javax.swing.JTextField();
+        jLabel11 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -122,11 +125,15 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
         edServerIp.setText("192.168.1.32");
         edServerIp.setToolTipText("192.168.1.32");
         edServerIp.setEnabled(false);
+        edServerIp.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edServerIpActionPerformed(evt);
+            }
+        });
 
         jLabel9.setText("Request:");
-        jLabel9.setEnabled(false);
 
-        edRequest.setEditable(false);
+        edRequest.setText("/forras-admin/rest/createNFCLog?readerid=%RID%&rfid=%CID%&type=RF1");
         edRequest.setToolTipText("req?var1=1&var2=2");
         edRequest.setEnabled(false);
 
@@ -148,28 +155,25 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
 
         jLabel10.setText("MAC:");
 
-        edMAC.setEditable(false);
         edMAC.setText("DE-AD-BE-EF-FE-ED");
         edMAC.setToolTipText("DE-AD-BE-EF-FE-ED");
         edMAC.setEnabled(false);
+
+        edServerPort.setText("8080");
+        edServerPort.setToolTipText("192.168.1.32");
+        edServerPort.setEnabled(false);
+        edServerPort.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                edServerPortActionPerformed(evt);
+            }
+        });
+
+        jLabel11.setText("Server Port:");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(30, 30, 30)
-                        .addComponent(jLabel8))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jLabel9)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(edRequest)
-                    .addComponent(edServerIp))
-                .addContainerGap())
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(sendButton)
@@ -185,7 +189,7 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(serialPortList, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE))
+                        .addComponent(connectButton, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addContainerGap()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -212,6 +216,21 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
                 .addComponent(jLabel10)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(edMAC)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabel8))
+                    .addComponent(jLabel11, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jLabel9, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(edRequest, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 1, Short.MAX_VALUE)
+                    .addComponent(edServerPort, javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(edServerIp, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -254,9 +273,13 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
                     .addComponent(jLabel8))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(edServerPort, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(edRequest, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel9))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 32, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(sendButton)
                     .addComponent(btnReadConfig))
@@ -327,7 +350,10 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
             conf.dnsserver = edDNS.getText();
             conf.request = edRequest.getText();
             conf.mac = edMAC.getText();
-            Gson gson = new Gson();
+            conf.serverport = Integer.parseInt(edServerPort.getText());
+            int requestLength = edRequest.getText().length() < 80 ? edRequest.getText().length() : 80;
+            conf.request = edRequest.getText().substring(0,requestLength) + (char) 0;
+            Gson gson = new GsonBuilder().disableHtmlEscaping().create();
             String config = gson.toJson(conf);
             serialPort.writeString(config);
         } catch (SerialPortException ex) {
@@ -348,6 +374,14 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
         }
     }//GEN-LAST:event_btnReadConfigActionPerformed
 
+    private void edServerIpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edServerIpActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edServerIpActionPerformed
+
+    private void edServerPortActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_edServerPortActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_edServerPortActionPerformed
+
     public void setState() {
         boolean b = serialPort.isOpened();
         connectButton.setText(b ? "Disconnect" : "Connect");
@@ -363,9 +397,9 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
         edSubnetMask.setEditable(b);
         edServerIp.setEnabled(b);
         edServerIp.setEditable(b);
-        edRequest.setEnabled(b);
         edMAC.setEnabled(b);
-        edRequest.setEditable(b);
+        edRequest.setEnabled(b);
+        edServerPort.setEnabled(b);
         sendButton.setEnabled(b);
         btnReadConfig.setEnabled(b);
     }
@@ -407,6 +441,8 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
                                 edRequest.setText(netcfg.request);
                                 edServerIp.setText(netcfg.serverip);
                                 edSubnetMask.setText(netcfg.subnet);
+                                edServerPort.setText(String.valueOf(netcfg.serverport));
+                                chxUseDHCP.setSelected(netcfg.usedhcp == 1);
                             }
                         } catch (IllegalStateException | JsonSyntaxException ex) {
                             
@@ -469,9 +505,11 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
     private javax.swing.JTextField edReaderIP;
     private javax.swing.JTextField edRequest;
     private javax.swing.JTextField edServerIp;
+    private javax.swing.JTextField edServerPort;
     private javax.swing.JTextField edSubnetMask;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
