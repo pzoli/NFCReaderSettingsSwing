@@ -21,4 +21,5 @@ public class NetConfig implements Serializable {
     public String dnsserver;
     public String request;
     public String mac;
+    public int serverport;
 }
