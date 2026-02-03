@@ -10,4 +10,4 @@ A JavaSE NetBeans Maven and Swing project for setting NFC reader hardver over se
 - [login-server](https://github.com/pzoli/login-server)
 - [ForrasAdminRFIDReaderConfigurator](https://github.com/pzoli/ForrasAdminRFIDReaderConfigurator)
 
-![NFCReaderSettingsSwing](/doc/NFCReaderSettingsSwing.png)
+![NFCReaderSettingsSwing](/docs/NFCReaderSettingsSwing.png)
