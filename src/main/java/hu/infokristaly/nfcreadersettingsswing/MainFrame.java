@@ -10,6 +10,8 @@ import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
+import javax.swing.JOptionPane;
 import jssc.SerialPort;
 import jssc.SerialPortEvent;
 import jssc.SerialPortException;
@@ -356,6 +358,7 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
 
     private void sendButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendButtonActionPerformed
         try {
+            checkInputs();
             NetConfig conf = new NetConfig();
             conf.action = "configure";
             conf.state = "CONFIG";
@@ -369,13 +372,15 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
             conf.mac = edMAC.getText();
             conf.serverport = Integer.parseInt(edServerPort.getText());
             int requestLength = edRequest.getText().length() < 80 ? edRequest.getText().length() : 79;
-            conf.request = edRequest.getText().substring(0,requestLength) + (char) 0;
+            conf.request = edRequest.getText().substring(0, requestLength) + (char) 0;
             Gson gson = new GsonBuilder().disableHtmlEscaping().create();
             String config = gson.toJson(conf);
             serialPort.writeString(config);
         } catch (SerialPortException ex) {
             Logger.getLogger(MainFrame.class.getName()).log(Level.SEVERE, null, ex);
-        }        // TODO add your handling code here:
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(null, ex.getMessage());
+        }
     }//GEN-LAST:event_sendButtonActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
@@ -466,7 +471,7 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
                                 chxUseDHCP.setSelected(netcfg.usedhcp == 1);
                             }
                         } catch (IllegalStateException | JsonSyntaxException ex) {
-                            
+
                         }
                     }
                 } catch (SerialPortException ex) {
@@ -515,6 +520,36 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
         });
     }
 
+    private void checkInputs() throws Exception {
+        Pattern ipPattern = Pattern.compile("^(([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\\.(?!$)|$)){4}$");
+        Pattern macPattern = Pattern.compile("^([0-9A-Fa-f]{2}[:-]){5}([0-9A-Fa-f]{2})$");
+        
+        if (!ipPattern.matcher(edDNS.getText()).find()) {
+            throw new Exception("Invalid DNS error!");
+        }
+
+        if (!ipPattern.matcher(edGateway.getText()).find()) {
+            throw new Exception("Invalid Gateway error!");
+        }
+
+        if (!macPattern.matcher(edMAC.getText()).find()) {
+            throw new Exception("Invalid MAC address error!");
+        }
+        
+        if (!ipPattern.matcher(edReaderIP.getText()).find()) {
+            throw new Exception("Invalid Reader IP error!");
+        }
+
+        if (!ipPattern.matcher(edServerIp.getText()).find()) {
+            throw new Exception("Invalid Server Ip error!");
+        }
+
+        if (!ipPattern.matcher(edSubnetMask.getText()).find()) {
+            throw new Exception("Invalid Subnet Mask error");
+        }
+
+        Integer.valueOf(edServerPort.getText());
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnReadConfig;
@@ -543,4 +578,5 @@ public class MainFrame extends javax.swing.JFrame implements jssc.SerialPortEven
     private javax.swing.JButton sendButton;
     private javax.swing.JComboBox<String> serialPortList;
     // End of variables declaration//GEN-END:variables
+
 }
